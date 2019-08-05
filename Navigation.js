@@ -171,6 +171,9 @@ const TabNavigator = createBottomTabNavigator({
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
             ),
+            tabBarLabel:({ focused, tintColor }) => (
+                <Text style={{color:focused ?'red':'grey'}}>Trang chủ</Text>
+            ),
         }
     },
 
@@ -188,6 +191,9 @@ const TabNavigator = createBottomTabNavigator({
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
             ),
+            tabBarLabel:({ focused, tintColor }) => (
+                <Text style={{color:focused ?'red':'grey'}}>Khoản vay</Text>
+            ),
         }
     },
     Card: {
@@ -204,6 +210,10 @@ const TabNavigator = createBottomTabNavigator({
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
             ),
+            tabBarLabel:({ focused, tintColor }) => (
+                <Text style={{color:focused ?'red':'grey'}}>Thẻ</Text>
+            ),
+
         }
     },
     Favors: {
@@ -219,6 +229,9 @@ const TabNavigator = createBottomTabNavigator({
                         source={imgFavors}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
+            ),
+            tabBarLabel:({ focused, tintColor }) => (
+                <Text style={{color:focused ?'red':'grey'}}>Ưu đãi</Text>
             ),
         }
     },
