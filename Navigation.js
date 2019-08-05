@@ -8,7 +8,7 @@ import {
     Dimensions, Button, Image
 } from 'react-native';
 
-import { Icon } from 'react-native-elements'
+//import { Icon } from 'react-native-elements'
 
 import { createBottomTabNavigator, createStackNavigator, createAppContainer, SafeAreaView } from "react-navigation";
 import Setting from './src/screens/Setting'
@@ -36,19 +36,62 @@ const imgSetting = require('./src/images/icon_setting.png')
 const imgBack = require('./src/images/setting_back.png')
 const imgEdit = require('./src/images/setting_edit.png')
 
+const homeNavigator = createStackNavigator({
+    Home: {
+        screen: Home,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => (
+                focused ? <Image
+                    source={imgHome}
+                    style={[styles.icon, { tintColor: 'red' }]}
+                />
+                    :
+                    <Image
+                        source={imgHome}
+                        style={[styles.icon, { tintColor: 'grey' }]}
+                    />
+            ),
+        }
+    },
+}, {
+        navigationOptions: ({ navigation }) => ({
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Home' ? true : false
+        }),
+    })
 
+const loanNavigator = createStackNavigator({
+    Loan: Loan
+}, {
+        navigationOptions: ({ navigation }) => ({
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Loan' ? true : false
+        }),
+    }
+)
+
+const cardNavigator = createStackNavigator({
+    Card: Card
+}, {
+        navigationOptions: ({ navigation }) => ({
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Card' ? true : false
+        }),
+    }
+)
+
+const favorsNavigator = createStackNavigator({
+    Favors: Favors
+}, {
+        navigationOptions: ({ navigation }) => ({
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Favors' ? true : false
+        }),
+    }
+)
 
 const settingNavigator = createStackNavigator({
     Setting: {
         screen: Setting,
         navigationOptions: ({ navigation }) => ({
             header: props =>
-                <SettingHeader
-                    title="Setting"
-                    isLeft
-                    leftSource={imgBack}
-                >
-                </SettingHeader>
+                <SettingHeader title="Setting"/>
             ,
             headerBackTitle: null
         }),
@@ -105,75 +148,27 @@ const settingNavigator = createStackNavigator({
         }),
     })
 
-const homeNavigator = createStackNavigator({
-    Home: {
-        screen: Home,
-        navigationOptions: {
-            tabBarIcon: ({ focused, tintColor }) => (
-                focused ? <Image
-                    source={imgHome}
-                    style={[styles.icon, { tintColor: 'red' }]}
-                />
-                    :
-                    <Image
-                        source={imgHome}
-                        style={[styles.icon, { tintColor: 'grey' }]}
-                    />
-            ),
-        }
-    },
-}, {
-        navigationOptions: ({ navigation }) => ({
-            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Home' ? true : false
-        }),
-    })
-
-const loanNavigator = createStackNavigator({
-    Loan: Loan
-}, {
-        navigationOptions: ({ navigation }) => ({
-            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Loan' ? true : false
-        }),
-    }
-)
-
-const cardNavigator = createStackNavigator({
-    Card: Card
-}, {
-        navigationOptions: ({ navigation }) => ({
-            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Card' ? true : false
-        }),
-    }
-)
-
-const favorsNavigator = createStackNavigator({
-    Favors: Favors
-}, {
-        navigationOptions: ({ navigation }) => ({
-            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Favors' ? true : false
-        }),
-    }
-)
-
 //Bottom Tab
 const TabNavigator = createBottomTabNavigator({
     Home: {
         screen: homeNavigator,
         navigationOptions: {
+            title:"Trang chủ",
             tabBarIcon: ({ focused, tintColor }) => (
-                focused ? <Image
-                    source={imgHome}
-                    style={[styles.icon, { tintColor: 'red' }]}
-                />
+                focused ?
+                    <Image
+                        source={imgHome}
+                        style={[styles.icon, { tintColor: 'red' }]}
+                    />
                     :
                     <Image
                         source={imgHome}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
             ),
-            tabBarLabel:({ focused, tintColor }) => (
-                <Text style={{color:focused ?'red':'grey'}}>Trang chủ</Text>
-            ),
+            // tabBarLabel: ({ focused, tintColor }) => (
+            //     <Text style={{ color: focused ? 'red' : 'grey' }}>Trang chủ</Text>
+            // ),
         }
     },
 
@@ -181,18 +176,19 @@ const TabNavigator = createBottomTabNavigator({
         screen: loanNavigator,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => (
-                focused ? <Image
-                    source={imgLoan}
-                    style={[styles.icon, { tintColor: 'red' }]}
-                />
+                focused ?
+                    <Image
+                        source={imgLoan}
+                        style={[styles.icon, { tintColor: 'red' }]}
+                    />
                     :
                     <Image
                         source={imgLoan}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
             ),
-            tabBarLabel:({ focused, tintColor }) => (
-                <Text style={{color:focused ?'red':'grey'}}>Khoản vay</Text>
+            tabBarLabel: ({ focused, tintColor }) => (
+                <Text style={{ color: focused ? 'red' : 'grey' }}>Khoản vay</Text>
             ),
         }
     },
@@ -200,18 +196,19 @@ const TabNavigator = createBottomTabNavigator({
         screen: cardNavigator,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => (
-                focused ? <Image
-                    source={imgCard}
-                    style={[styles.icon, { tintColor: 'red' }]}
-                />
+                focused ?
+                    <Image
+                        source={imgCard}
+                        style={[styles.icon, { tintColor: 'red' }]}
+                    />
                     :
                     <Image
                         source={imgCard}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
             ),
-            tabBarLabel:({ focused, tintColor }) => (
-                <Text style={{color:focused ?'red':'grey'}}>Thẻ</Text>
+            tabBarLabel: ({ focused, tintColor }) => (
+                <Text style={{ color: focused ? 'red' : 'grey' }}>Thẻ</Text>
             ),
 
         }
@@ -220,18 +217,19 @@ const TabNavigator = createBottomTabNavigator({
         screen: favorsNavigator,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => (
-                focused ? <Image
-                    source={imgFavors}
-                    style={[styles.icon, { tintColor: 'red' }]}
-                />
+                focused ?
+                    <Image
+                        source={imgFavors}
+                        style={[styles.icon, { tintColor: 'red' }]}
+                    />
                     :
                     <Image
                         source={imgFavors}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
             ),
-            tabBarLabel:({ focused, tintColor }) => (
-                <Text style={{color:focused ?'red':'grey'}}>Ưu đãi</Text>
+            tabBarLabel: ({ focused, tintColor }) => (
+                <Text style={{ color: focused ? 'red' : 'grey' }}>Ưu đãi</Text>
             ),
         }
     },
@@ -239,40 +237,24 @@ const TabNavigator = createBottomTabNavigator({
         screen: settingNavigator,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => (
-                // focused ? <Image
-                //     source={imgSetting}
-                //     style={[styles.icon, { tintColor: 'red' }]}
-                // />
-                //     :
-                //     <Image
-                //         source={imgSetting}
-                //         style={[styles.icon, { tintColor: 'grey' }]}
-                //     />
-                focused ?
-                    <Icon
-                        name="cog"
-                        type='font-awesome'
-                        color={'red'}
-                        size={30}
-                    //iconStyle={{ textAlignVertical: 'center', tintColor: 'red' }}
-                    />
+                focused ? <Image
+                    source={imgSetting}
+                    style={[styles.icon, { tintColor: 'red' }]}
+                />
                     :
-
-                    <Icon
-                        name="cog"
-                        type='font-awesome'
-                        color={'grey'}
-                        size={30}
-                    //iconStyle={{ textAlignVertical: 'center', tintColor: 'grey' }} 
+                    <Image
+                        source={imgSetting}
+                        style={[styles.icon, { tintColor: 'grey' }]}
                     />
             ),
-            tabBarLabel:({ focused, tintColor }) => (
-                <Text style={{color:focused ?'red':'grey'}}>Tài khoản</Text>
+            tabBarLabel: ({ focused, tintColor }) => (
+                <Text style={{ color: focused ? 'red' : 'grey' }}>Tài khoản</Text>
             ),
         }
     },
 }, {
         tabBarOptions: {
+            activeTintColor:'red',
             safeAreaInset: { bottom: 'always', top: 'never' }
         }
     });
@@ -290,4 +272,7 @@ const styles = StyleSheet.create({
     textNoFocus: {
         color: 'black'
     },
+    bottom_tab_title:{
+        fontSize:10
+    }
 });
