@@ -1,14 +1,16 @@
 
 import React, { Component } from 'react';
-import { 
-  Platform, 
-  StyleSheet, 
-  Text, 
-  View,
-  Dimensions,Button, Image
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    Dimensions, Button, Image
 } from 'react-native';
 
-import { createStackNavigator, createAppContainer, SafeAreaView } from "react-navigation";
+import { Icon } from 'react-native-elements'
+
+import { createBottomTabNavigator, createStackNavigator, createAppContainer, SafeAreaView } from "react-navigation";
 import Setting from './src/screens/Setting'
 import UserInfo from './src/screens/UserInfo'
 import ChangePassword from './src/screens/ChangePassword'
@@ -18,18 +20,30 @@ import TermCondition from './src/screens/TermCondition'
 import PaymentHistory from './src/screens/PaymentHistory'
 
 import Home from './src/screens/Home'
+import Loan from './src/screens/Loan'
+import Card from './src/screens/Card'
+import Favors from './src/screens/Favors'
+
 
 import { SettingHeader } from './src/components'
+
+const imgHome = require('./src/images/icon_home.png')
+const imgLoan = require('./src/images/icon_loan.png')
+const imgCard = require('./src/images/icon_card.png')
+const imgFavors = require('./src/images/icon_favors.png')
+const imgSetting = require('./src/images/icon_setting.png')
 
 const imgBack = require('./src/images/setting_back.png')
 const imgEdit = require('./src/images/setting_edit.png')
 
-const navigator = createStackNavigator({
+
+
+const settingNavigator = createStackNavigator({
     Setting: {
         screen: Setting,
         navigationOptions: ({ navigation }) => ({
             header: props =>
-                <SettingHeader 
+                <SettingHeader
                     title="Setting"
                     isLeft
                     leftSource={imgBack}
@@ -41,60 +55,30 @@ const navigator = createStackNavigator({
     },
     UserInfo: {
         screen: UserInfo,
-        // navigationOptions: ({ navigation }) => ({
-        //     header: props =>
-        //         <SettingHeader 
-        //             title="Thông tin cá nhân"
-        //             isLeft
-        //             //isRight
-        //             leftSource={imgBack}
-        //             //rightSource={imgEdit}
-        //             leftPress={()=> navigation.goBack()}
-        //         >
-        //         </SettingHeader>
-        //     ,
-        //     headerBackTitle: null
-
-        // })
     },
-    PaymentHistory:{
-        screen:PaymentHistory
+    PaymentHistory: {
+        screen: PaymentHistory
     },
-
     ChangePassword: {
         screen: ChangePassword,
-        // navigationOptions: ({ navigation }) => ({
-        //     header: props =>
-        //         <SettingHeader 
-        //             title="Thông tin cá nhân"
-        //             isLeft
-        //             //isRight
-        //             leftSource={imgBack}
-        //             //rightSource={imgEdit}
-        //             leftPress={()=> navigation.goBack()}
-        //         >
-        //         </SettingHeader>
-        //     ,
-        //     headerBackTitle: null
-
-        // })
     },
 
     Question: {
         screen: Question,
         navigationOptions: ({ navigation }) => ({
             header: props =>
-                <SettingHeader 
+                <SettingHeader
                     title="Câu hỏi thường gặp"
                     isLeft
                     //isRight
                     leftSource={imgBack}
                     //rightSource={imgEdit}
-                    leftPress={()=> navigation.goBack()}
+                    leftPress={() => navigation.goBack()}
                 >
                 </SettingHeader>
             ,
-            headerBackTitle: null
+            headerBackTitle: null,
+            tabBarVisible: false
 
         })
     },
@@ -102,11 +86,11 @@ const navigator = createStackNavigator({
         screen: TermCondition,
         navigationOptions: ({ navigation }) => ({
             header: props =>
-                <SettingHeader 
+                <SettingHeader
                     title={"Điều khoản" + "\n" + "và điều kiện sử dụng"}
                     isLeft
                     leftSource={imgBack}
-                    leftPress={()=> navigation.goBack()}
+                    leftPress={() => navigation.goBack()}
                 >
                 </SettingHeader>
             ,
@@ -114,17 +98,183 @@ const navigator = createStackNavigator({
 
         })
     },
-    Home:{
-        screen:Home,
+}, {
+        initialRouteName: "Setting",
         navigationOptions: ({ navigation }) => ({
-            header: null,
-            headerBackTitle: null
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Setting' ? true : false
+        }),
+    })
 
-        })
+const homeNavigator = createStackNavigator({
+    Home: {
+        screen: Home,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => (
+                focused ? <Image
+                    source={imgHome}
+                    style={[styles.icon, { tintColor: 'red' }]}
+                />
+                    :
+                    <Image
+                        source={imgHome}
+                        style={[styles.icon, { tintColor: 'grey' }]}
+                    />
+            ),
+        }
+    },
+}, {
+        navigationOptions: ({ navigation }) => ({
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Home' ? true : false
+        }),
+    })
+
+const loanNavigator = createStackNavigator({
+    Loan: Loan
+}, {
+        navigationOptions: ({ navigation }) => ({
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Loan' ? true : false
+        }),
     }
+)
 
-},{
-    initialRouteName:"Setting"
-})
+const cardNavigator = createStackNavigator({
+    Card: Card
+}, {
+        navigationOptions: ({ navigation }) => ({
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Card' ? true : false
+        }),
+    }
+)
 
-export default createAppContainer(navigator)
+const favorsNavigator = createStackNavigator({
+    Favors: Favors
+}, {
+        navigationOptions: ({ navigation }) => ({
+            tabBarVisible: navigation.state.routes[navigation.state.index].routeName === 'Favors' ? true : false
+        }),
+    }
+)
+
+//Bottom Tab
+const TabNavigator = createBottomTabNavigator({
+    Home: {
+        screen: homeNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => (
+                focused ? <Image
+                    source={imgHome}
+                    style={[styles.icon, { tintColor: 'red' }]}
+                />
+                    :
+                    <Image
+                        source={imgHome}
+                        style={[styles.icon, { tintColor: 'grey' }]}
+                    />
+            ),
+        }
+    },
+
+    Loan: {
+        screen: loanNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => (
+                focused ? <Image
+                    source={imgLoan}
+                    style={[styles.icon, { tintColor: 'red' }]}
+                />
+                    :
+                    <Image
+                        source={imgLoan}
+                        style={[styles.icon, { tintColor: 'grey' }]}
+                    />
+            ),
+        }
+    },
+    Card: {
+        screen: cardNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => (
+                focused ? <Image
+                    source={imgCard}
+                    style={[styles.icon, { tintColor: 'red' }]}
+                />
+                    :
+                    <Image
+                        source={imgCard}
+                        style={[styles.icon, { tintColor: 'grey' }]}
+                    />
+            ),
+        }
+    },
+    Favors: {
+        screen: favorsNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => (
+                focused ? <Image
+                    source={imgFavors}
+                    style={[styles.icon, { tintColor: 'red' }]}
+                />
+                    :
+                    <Image
+                        source={imgFavors}
+                        style={[styles.icon, { tintColor: 'grey' }]}
+                    />
+            ),
+        }
+    },
+    Settings: {
+        screen: settingNavigator,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => (
+                // focused ? <Image
+                //     source={imgSetting}
+                //     style={[styles.icon, { tintColor: 'red' }]}
+                // />
+                //     :
+                //     <Image
+                //         source={imgSetting}
+                //         style={[styles.icon, { tintColor: 'grey' }]}
+                //     />
+                focused ?
+                    <Icon
+                        name="cog"
+                        type='font-awesome'
+                        color={'red'}
+                        size={30}
+                    //iconStyle={{ textAlignVertical: 'center', tintColor: 'red' }}
+                    />
+                    :
+
+                    <Icon
+                        name="cog"
+                        type='font-awesome'
+                        color={'grey'}
+                        size={30}
+                    //iconStyle={{ textAlignVertical: 'center', tintColor: 'grey' }} 
+                    />
+            ),
+            tabBarLabel:({ focused, tintColor }) => (
+                <Text style={{color:focused ?'red':'grey'}}>Tài khoản</Text>
+            ),
+        }
+    },
+}, {
+        tabBarOptions: {
+            safeAreaInset: { bottom: 'always', top: 'never' }
+        }
+    });
+
+export default createAppContainer(TabNavigator)
+
+const styles = StyleSheet.create({
+    icon: {
+        width: 20,
+        height: 20
+    },
+    textFocus: {
+        color: 'red'
+    },
+    textNoFocus: {
+        color: 'black'
+    },
+});

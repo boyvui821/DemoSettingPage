@@ -15,6 +15,14 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default class Home extends Component {
 
+    constructor(props) {
+        super(props);
+      
+        this.state = {
+          scrollY: new Animated.Value(0),
+        };
+      }
+
     _renderScrollViewContent() {
         const data = Array.from({ length: 30 });
         return (
@@ -29,11 +37,23 @@ export default class Home extends Component {
     }
 
     render() {
+        const headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+            extrapolate: 'clamp',
+        });
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.fill}>
+
+
                     <ScrollView
                         style={styles.fill}
+                        scrollEventThrottle={16}
+                        onScroll={Animated.event(
+                            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
+                        )}
                     >
                         {this._renderScrollViewContent()}
                     </ScrollView>
@@ -68,19 +88,19 @@ const styles = StyleSheet.create({
         right: 0,
         backgroundColor: '#03A9F4',
         overflow: 'hidden',
-      },
-      bar: {
+    },
+    bar: {
         marginTop: 28,
         height: 32,
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      title: {
+    },
+    title: {
         backgroundColor: 'transparent',
         color: 'white',
         fontSize: 18,
-      },
-      scrollViewContent: {
+    },
+    scrollViewContent: {
         marginTop: HEADER_MAX_HEIGHT,
-      },
+    },
 });

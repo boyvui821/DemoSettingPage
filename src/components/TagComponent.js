@@ -50,7 +50,6 @@ export default class TagComponent extends Component {
     tags_container: {
       width: S_WIDTH - 20,
       paddingVertical: 20,
-      marginBottom:20
     },
     tag_item: {
       // borderWidth: 2,
